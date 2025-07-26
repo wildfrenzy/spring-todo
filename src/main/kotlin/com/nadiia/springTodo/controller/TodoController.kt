@@ -1,12 +1,40 @@
 package com.nadiia.springTodo.controller
 
+import com.nadiia.springTodo.model.Task
+import com.nadiia.springTodo.service.TodoService
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
 
 @RestController
 @RequestMapping("/")
-class TodoController {
+class TodoController(private val todoService: TodoService) {
     @GetMapping("/")
     fun hello() = "Hello World!"
+
+    @GetMapping("/api/tasks")
+    fun tasks() = todoService.getTasks()
+
+    @PostMapping("/api/task")
+    fun addTask(@RequestBody taskData: Task) : Task{
+        todoService.addToList(taskData.task)
+        return taskData
+    }
+
+    @DeleteMapping("/api/task/{id}")
+    fun deleteTask(@PathVariable id: Int) : String {
+        todoService.deleteTask(id)
+        return "Task id:$id deleted"
+    }
+
+    @PatchMapping("/api/task/{id}")
+    fun markDone(@PathVariable id: Int) : String {
+        todoService.markDone(id)
+        return "Task id:$id is marked as done"
+    }
 }
