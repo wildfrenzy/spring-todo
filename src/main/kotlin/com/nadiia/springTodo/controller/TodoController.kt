@@ -2,6 +2,7 @@ package com.nadiia.springTodo.controller
 
 import com.nadiia.springTodo.model.Task
 import com.nadiia.springTodo.service.TodoService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -25,13 +26,14 @@ class TodoController(private val todoService: TodoService) {
     }
 
     @DeleteMapping("/api/task/{id}")
-    fun deleteTask(@PathVariable id: Int) : String {
+    fun deleteTask(@PathVariable id: Int): ResponseEntity<Void> {
         todoService.deleteTask(id)
-        return "Task id:$id deleted"
+        return ResponseEntity.noContent().build()
     }
 
     @PatchMapping("/api/task/{id}")
-    fun markDone(@PathVariable id: Int)  {
+    fun markDone(@PathVariable id: Int): ResponseEntity<Void>  {
         todoService.markDone(id)
+        return ResponseEntity.noContent().build()
     }
 }
