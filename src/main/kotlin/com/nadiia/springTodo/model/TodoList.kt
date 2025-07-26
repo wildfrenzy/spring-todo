@@ -13,13 +13,11 @@ data class TodoList(var name: String){
         _tasks.add(task)
     }
     fun deleteTask(id: Int) {
-        if (id < _tasks.size) {
-            _tasks.removeAt(id)
-        } else throw NoSuchElementException("Task with id $id not found")
+        if (_tasks.find { it.id == id } != null) _tasks.removeAt(id)
+        else throw NoSuchElementException("Task with id $id not found")
     }
-    fun markDone(id: Int) {
-        if (id < _tasks.size) {
-            _tasks[id].markDone()
-        } else throw NoSuchElementException("Task with id $id not found")
-    }
+//    fun markDone(id: Int) {
+//        if (_tasks.find { it.id == id } != null) _tasks[id].markDone()
+//        else throw NoSuchElementException("Task with id $id not found")
+//    }
 }

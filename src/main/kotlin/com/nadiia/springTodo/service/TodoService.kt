@@ -9,8 +9,9 @@ class TodoService {
     private var list = TodoList("My first list")
     init {
         list.addTask(Task(0, "My first task"))
-        list.addTask(Task(1, "My first task"))
-        list.addTask(Task(3, "My first task"))
+        list.addTask(Task(1, "My another task"))
+        list.addTask(Task(3, "My the other task"))
+        list.getTasks().first().markDone()
     }
 
     fun getTasks() : List<Task> = list.getTasks().sortedBy { it.id }
@@ -25,9 +26,13 @@ class TodoService {
         list.addTask(Task(findAvailableId(), task))
     }
 
+    private fun getTaskById(id: Int) : Task? = list.getTasks().find { it.id == id}
+
     fun markDone(id: Int){
-        if (id < 0 || id >= list.getTasks().size) throw NoSuchElementException("Task with id $id not found")
-        list.markDone(id)
+        val toMark: Task? = getTaskById(id)
+        if (toMark != null) {
+            toMark.markDone()
+        } else throw NoSuchElementException("Task with id $id not found")
     }
 
     fun deleteTask(id: Int) {

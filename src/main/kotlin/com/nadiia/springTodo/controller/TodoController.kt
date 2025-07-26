@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RestController
 @RequestMapping("/")
 class TodoController(private val todoService: TodoService) {
-    @GetMapping("/")
-    fun hello() = "Hello World!"
 
     @GetMapping("/api/tasks")
     fun tasks() = todoService.getTasks()
@@ -33,8 +31,7 @@ class TodoController(private val todoService: TodoService) {
     }
 
     @PatchMapping("/api/task/{id}")
-    fun markDone(@PathVariable id: Int) : String {
+    fun markDone(@PathVariable id: Int)  {
         todoService.markDone(id)
-        return "Task id:$id is marked as done"
     }
 }
