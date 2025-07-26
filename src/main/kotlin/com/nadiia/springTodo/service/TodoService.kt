@@ -29,14 +29,13 @@ class TodoService {
     private fun getTaskById(id: Int) : Task? = list.getTasks().find { it.id == id}
 
     fun markDone(id: Int){
-        val toMark: Task? = getTaskById(id)
-        if (toMark != null) {
-            toMark.markDone()
-        } else throw NoSuchElementException("Task with id $id not found")
+        getTaskById(id)?.apply { markDone() }
+            ?:throw NoSuchElementException("Task with id $id not found")
     }
 
     fun deleteTask(id: Int) {
-        if (id < 0 || id >= list.getTasks().size) throw NoSuchElementException("Task with id $id not found")
-        list.deleteTask(id)
+        getTasks().find { it.id == id }
+            ?.apply { list.deleteTask(id) }
+            ?:throw NoSuchElementException("Task with id $id not found")
     }
 }
